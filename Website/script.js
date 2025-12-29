@@ -2,6 +2,15 @@
 // Now just metadata - content is loaded from separate markdown files
 const posts = [
     {
+        id: 6,
+        title: "Markdown Test Case Study",
+        category: "Writing",
+        date: "2025-12-29",
+        featuredImage: "images/markdown-test/preview.webp",
+        contentFile: "projects/markdown-test.md",
+        altText: "Comprehensive markdown formatting test showcasing all text styles, links, and formatting options"
+    },
+    {
         id: 5,
         title: "Ringadindons",
         category: "Concept",
