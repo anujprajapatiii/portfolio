@@ -7,7 +7,8 @@ const posts = [
         category: "Concept",
         date: "2025-12-29",
         featuredImage: "images/ringadindons/preview.webp",
-        contentFile: "projects/ringadindons.md"
+        contentFile: "projects/ringadindons.md",
+        altText: "Character design illustrations showcasing whimsical Ringadindons characters in various poses and expressions"
     },
     {
         id: 4,
@@ -15,7 +16,8 @@ const posts = [
         category: "Writing",
         date: "2025-12-29",
         featuredImage: "images/gaben/preview.webp",
-        contentFile: "projects/gaben.md"
+        contentFile: "projects/gaben.md",
+        altText: "Gabe Newell portrait - collection of quotes and wisdom about product development and iteration"
     },
     {
         id: 3,
@@ -23,7 +25,8 @@ const posts = [
         category: "Concept",
         date: "2025-12-29",
         featuredImage: "images/winter-leaves/preview.webp",
-        contentFile: "projects/winter-leaves.md"
+        contentFile: "projects/winter-leaves.md",
+        altText: "Animated winter leaves concept art with organic movement and natural textures"
     },
     {
         id: 2,
@@ -31,7 +34,8 @@ const posts = [
         category: "Concept",
         date: "2025-12-29",
         featuredImage: "images/helltaker/preview.webp",
-        contentFile: "projects/helltaker.md"
+        contentFile: "projects/helltaker.md",
+        altText: "Helltaker game design analysis - pixel art demon characters and puzzle mechanics breakdown"
     },
     {
         id: 1,
@@ -39,14 +43,32 @@ const posts = [
         category: "Writing",
         date: "2025-12-29",
         featuredImage: "images/welcome/preview.webp",
-        contentFile: "projects/welcome.md"
+        contentFile: "projects/welcome.md",
+        altText: "Welcome banner introducing the portfolio and blog section"
     }
 ];
 
 // About page content
 const aboutContent = `I'm a visual/growth/brand/UX designer at BrowserStack, working across multiple design disciplines.
 
-This is my personal space for writing and sharing thoughts.`;
+**What I do:**
+I focus on creating thoughtful, user-centered designs that balance aesthetics with functionality. My work spans visual design, growth experiments, brand systems, and UX research.
+
+**Design philosophy:**
+Good design is invisible. The best interfaces feel natural, require minimal explanation, and genuinely improve people's lives. I believe in iterating quickly, testing assumptions, and letting data inform (but not dictate) creative decisions.
+
+**Tools & craft:**
+I work primarily in Figma for design and prototyping, with occasional ventures into motion design and creative coding. I'm always exploring new tools and techniques to expand my creative toolkit.
+
+**Currently exploring:**
+Micro-interactions, systematic design thinking, and the intersection of brand and product design.
+
+**Outside of work:**
+When I'm not designing, you'll find me analyzing game design patterns, sketching character concepts, or writing about design and creativity.
+
+---
+
+*This is a placeholder—I'll expand this section with more details soon.*`;
 
 // Design system content
 const designSystemContent = `
@@ -294,7 +316,7 @@ function renderHome() {
                 return `
                     <a href="?post=${post.id}" class="project-card">
                         <div class="project-image">
-                            <img src="${post.featuredImage}" alt="${post.title}" loading="lazy">
+                            <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
                         </div>
                         <div class="project-info">
                             <h2 class="project-title">${post.title}</h2>
@@ -334,12 +356,12 @@ function renderProjectsPage() {
     container.innerHTML = `
         <div class="projects-header">
             <div class="projects-title">Projects</div>
-            <div class="filter-pills">
-                <button class="filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">
+            <div class="filter-pills" role="group" aria-label="Filter projects by category">
+                <button class="filter-pill ${currentFilter === 'all' ? 'active' : ''}" data-filter="all" aria-pressed="${currentFilter === 'all'}">
                     All <span class="pill-count">${categoryCounts.all}</span>
                 </button>
                 ${categories.map(cat => `
-                    <button class="filter-pill ${currentFilter === cat ? 'active' : ''}" data-filter="${cat}">
+                    <button class="filter-pill ${currentFilter === cat ? 'active' : ''}" data-filter="${cat}" aria-pressed="${currentFilter === cat}">
                         ${cat} <span class="pill-count">${categoryCounts[cat]}</span>
                     </button>
                 `).join('')}
@@ -351,7 +373,7 @@ function renderProjectsPage() {
                 return `
                     <a href="?post=${post.id}" class="project-card">
                         <div class="project-image">
-                            <img src="${post.featuredImage}" alt="${post.title}" loading="lazy">
+                            <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
                         </div>
                         <div class="project-info">
                             <h2 class="project-title">${post.title}</h2>
