@@ -1,0 +1,9 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+[[headers]]
+  for = "/projects/*"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
