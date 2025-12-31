@@ -277,6 +277,71 @@ function isProjectsPage() {
     return window.location.hash === '#projects';
 }
 
+// Content cache for loaded markdown files
+const contentCache = new Map();
+
+// Eye icon SVG constant to avoid duplication
+const EYE_ICON_SVG = `
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+`;
+
+// Sanitize HTML to prevent XSS attacks
+function sanitizeHTML(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.textContent = html;
+    return tempDiv.innerHTML;
+}
+
+// Render a single project card (extracted to avoid duplication)
+function renderProjectCard(post) {
+    const year = new Date(post.date).getFullYear();
+    return `
+        <div class="project-card-wrapper">
+            <a href="?post=${post.id}" class="project-card">
+                <div class="project-image">
+                    <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
+                    ${post.preview ? `
+                        <button class="preview-eye-icon" data-post-id="${post.id}" aria-label="Preview project details">
+                            ${EYE_ICON_SVG}
+                        </button>
+                    ` : ''}
+                </div>
+                <div class="project-info">
+                    <h2 class="project-title">${post.title}</h2>
+                    <div class="project-category">${post.category}</div>
+                    <div class="project-year">${year}</div>
+                </div>
+            </a>
+            ${post.preview ? `
+                <div class="preview-card" data-preview-id="${post.id}">
+                    ${post.preview.video ? `
+                        <video src="${post.preview.video}" class="preview-image" autoplay loop muted playsinline preload="none"></video>
+                    ` : `
+                        <img src="${post.preview.image}" alt="${post.title} preview" class="preview-image" loading="lazy">
+                    `}
+                    <div class="preview-content">
+                        <div class="preview-row">
+                            <span class="preview-label">Role</span>
+                            <span class="preview-value">${post.preview.role}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Timeline</span>
+                            <span class="preview-value">${post.preview.timeline}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Tools</span>
+                            <span class="preview-value">${post.preview.tools}</span>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
 // Simple markdown-like text formatting
 function formatText(text) {
     // First, handle block-level elements (headings, images, videos)
@@ -386,54 +451,7 @@ function renderHome() {
             <div class="projects-title">Featured Work</div>
         </div>
         <div class="projects-grid">
-            ${featuredPosts.map(post => {
-                const year = new Date(post.date).getFullYear();
-                return `
-                    <div class="project-card-wrapper">
-                        <a href="?post=${post.id}" class="project-card">
-                            <div class="project-image">
-                                <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
-                                ${post.preview ? `
-                                    <button class="preview-eye-icon" data-post-id="${post.id}" aria-label="Preview project details">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                    </button>
-                                ` : ''}
-                            </div>
-                            <div class="project-info">
-                                <h2 class="project-title">${post.title}</h2>
-                                <div class="project-category">${post.category}</div>
-                                <div class="project-year">${year}</div>
-                            </div>
-                        </a>
-                        ${post.preview ? `
-                            <div class="preview-card" data-preview-id="${post.id}">
-                                ${post.preview.video ? `
-                                    <video src="${post.preview.video}" class="preview-image" autoplay loop muted playsinline></video>
-                                ` : `
-                                    <img src="${post.preview.image}" alt="${post.title} preview" class="preview-image" loading="lazy">
-                                `}
-                                <div class="preview-content">
-                                    <div class="preview-row">
-                                        <span class="preview-label">Role</span>
-                                        <span class="preview-value">${post.preview.role}</span>
-                                    </div>
-                                    <div class="preview-row">
-                                        <span class="preview-label">Timeline</span>
-                                        <span class="preview-value">${post.preview.timeline}</span>
-                                    </div>
-                                    <div class="preview-row">
-                                        <span class="preview-label">Tools</span>
-                                        <span class="preview-value">${post.preview.tools}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('')}
+            ${featuredPosts.map(post => renderProjectCard(post)).join('')}
         </div>
     `;
 
@@ -479,54 +497,7 @@ function renderProjectsPage() {
             </div>
         </div>
         <div class="projects-grid">
-            ${filteredPosts.map(post => {
-                const year = new Date(post.date).getFullYear();
-                return `
-                    <div class="project-card-wrapper">
-                        <a href="?post=${post.id}" class="project-card">
-                            <div class="project-image">
-                                <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
-                                ${post.preview ? `
-                                    <button class="preview-eye-icon" data-post-id="${post.id}" aria-label="Preview project details">
-                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
-                                        </svg>
-                                    </button>
-                                ` : ''}
-                            </div>
-                            <div class="project-info">
-                                <h2 class="project-title">${post.title}</h2>
-                                <div class="project-category">${post.category}</div>
-                                <div class="project-year">${year}</div>
-                            </div>
-                        </a>
-                        ${post.preview ? `
-                            <div class="preview-card" data-preview-id="${post.id}">
-                                ${post.preview.video ? `
-                                    <video src="${post.preview.video}" class="preview-image" autoplay loop muted playsinline></video>
-                                ` : `
-                                    <img src="${post.preview.image}" alt="${post.title} preview" class="preview-image" loading="lazy">
-                                `}
-                                <div class="preview-content">
-                                    <div class="preview-row">
-                                        <span class="preview-label">Role</span>
-                                        <span class="preview-value">${post.preview.role}</span>
-                                    </div>
-                                    <div class="preview-row">
-                                        <span class="preview-label">Timeline</span>
-                                        <span class="preview-value">${post.preview.timeline}</span>
-                                    </div>
-                                    <div class="preview-row">
-                                        <span class="preview-label">Tools</span>
-                                        <span class="preview-value">${post.preview.tools}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('')}
+            ${filteredPosts.map(post => renderProjectCard(post)).join('')}
         </div>
     `;
 
@@ -545,62 +516,86 @@ function renderProjectsPage() {
     initPreviewHovers();
 }
 
-// Initialize preview card hover interactions
+// Initialize preview card hover interactions using event delegation
+// This prevents memory leaks from accumulating event listeners
+let previewHoverInitialized = false;
+
 function initPreviewHovers() {
-    const eyeIcons = document.querySelectorAll('.preview-eye-icon');
+    // Only initialize once using event delegation
+    if (previewHoverInitialized) return;
 
-    eyeIcons.forEach(icon => {
-        const postId = icon.getAttribute('data-post-id');
+    const container = document.getElementById('posts-container');
+    if (!container) return;
+
+    // Use event delegation to handle all preview interactions
+    container.addEventListener('mouseenter', (e) => {
+        const eyeIcon = e.target.closest('.preview-eye-icon');
+        if (!eyeIcon) return;
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const postId = eyeIcon.getAttribute('data-post-id');
         const previewCard = document.querySelector(`[data-preview-id="${postId}"]`);
-
         if (!previewCard) return;
 
-        icon.addEventListener('mouseenter', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+        // Position preview below eye icon
+        const iconRect = eyeIcon.getBoundingClientRect();
+        const cardRect = previewCard.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
 
-            // Position preview below eye icon
-            const iconRect = icon.getBoundingClientRect();
-            const cardRect = previewCard.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
+        // Calculate position below eye icon
+        let top = iconRect.bottom + 8;
+        let left = iconRect.left + (iconRect.width / 2) - (cardRect.width / 2);
 
-            // Calculate position below eye icon
-            let top = iconRect.bottom + 8;
-            let left = iconRect.left + (iconRect.width / 2) - (cardRect.width / 2);
+        // Edge detection - right side
+        if (left + cardRect.width > viewportWidth - 20) {
+            left = viewportWidth - cardRect.width - 20;
+        }
 
-            // Edge detection - right side
-            if (left + cardRect.width > viewportWidth - 20) {
-                left = viewportWidth - cardRect.width - 20;
-            }
+        // Edge detection - left side
+        if (left < 20) {
+            left = 20;
+        }
 
-            // Edge detection - left side
-            if (left < 20) {
-                left = 20;
-            }
+        // Edge detection - bottom
+        if (top + cardRect.height > viewportHeight - 20) {
+            top = iconRect.top - cardRect.height - 8; // Show above icon instead
+        }
 
-            // Edge detection - bottom
-            if (top + cardRect.height > viewportHeight - 20) {
-                top = iconRect.top - cardRect.height - 8; // Show above icon instead
-            }
+        previewCard.style.top = `${top}px`;
+        previewCard.style.left = `${left}px`;
+        previewCard.classList.add('visible');
+    }, true);
 
-            previewCard.style.top = `${top}px`;
-            previewCard.style.left = `${left}px`;
-            previewCard.classList.add('visible');
-        });
+    container.addEventListener('mouseleave', (e) => {
+        const eyeIcon = e.target.closest('.preview-eye-icon');
+        if (!eyeIcon) return;
 
-        icon.addEventListener('mouseleave', () => {
+        const postId = eyeIcon.getAttribute('data-post-id');
+        const previewCard = document.querySelector(`[data-preview-id="${postId}"]`);
+        if (previewCard) {
             previewCard.classList.remove('visible');
-        });
+        }
+    }, true);
 
-        previewCard.addEventListener('mouseenter', () => {
+    // Handle preview card hover
+    container.addEventListener('mouseenter', (e) => {
+        const previewCard = e.target.closest('.preview-card');
+        if (previewCard) {
             previewCard.classList.add('visible');
-        });
+        }
+    }, true);
 
-        previewCard.addEventListener('mouseleave', () => {
+    container.addEventListener('mouseleave', (e) => {
+        const previewCard = e.target.closest('.preview-card');
+        if (previewCard) {
             previewCard.classList.remove('visible');
-        });
-    });
+        }
+    }, true);
+
+    previewHoverInitialized = true;
 }
 
 // Render individual post
@@ -625,13 +620,23 @@ async function renderPost(postId) {
     `;
 
     try {
-        // Load content from markdown file
-        // Use absolute path from root to ensure it works on all hosting platforms
-        const contentPath = post.contentFile.startsWith('/') ? post.contentFile : `/${post.contentFile}`;
-        const response = await fetch(contentPath);
-        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        const content = await response.text();
-        const formattedContent = formatText(content);
+        let formattedContent;
+
+        // Check cache first
+        if (contentCache.has(post.id)) {
+            formattedContent = contentCache.get(post.id);
+        } else {
+            // Load content from markdown file
+            // Use absolute path from root to ensure it works on all hosting platforms
+            const contentPath = post.contentFile.startsWith('/') ? post.contentFile : `/${post.contentFile}`;
+            const response = await fetch(contentPath);
+            if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            const content = await response.text();
+            formattedContent = formatText(content);
+
+            // Cache the formatted content
+            contentCache.set(post.id, formattedContent);
+        }
 
         container.innerHTML = `
             <a href="?" class="back-link">← Back</a>
