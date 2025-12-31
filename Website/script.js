@@ -8,7 +8,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/markdown-test/preview.webp",
         contentFile: "projects/markdown-test.md",
-        altText: "Comprehensive markdown formatting test showcasing all text styles, links, and formatting options"
+        altText: "Comprehensive markdown formatting test showcasing all text styles, links, and formatting options",
+        preview: {
+            image: "images/markdown-test/preview.webp",
+            role: "Technical Writer",
+            timeline: "2 days",
+            tools: "Markdown, VS Code"
+        }
     },
     {
         id: 5,
@@ -17,7 +23,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/ringadindons/preview.webp",
         contentFile: "projects/ringadindons.md",
-        altText: "Character design illustrations showcasing whimsical Ringadindons characters in various poses and expressions"
+        altText: "Character design illustrations showcasing whimsical Ringadindons characters in various poses and expressions",
+        preview: {
+            image: "images/ringadindons/01.webp",
+            role: "Character Designer",
+            timeline: "1 week",
+            tools: "Procreate, Photoshop"
+        }
     },
     {
         id: 4,
@@ -26,7 +38,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/gaben/preview.webp",
         contentFile: "projects/gaben.md",
-        altText: "Gabe Newell portrait - collection of quotes and wisdom about product development and iteration"
+        altText: "Gabe Newell portrait - collection of quotes and wisdom about product development and iteration",
+        preview: {
+            video: "images/gaben/clip1.mp4",
+            role: "Content Curator",
+            timeline: "3 days",
+            tools: "Research, Writing"
+        }
     },
     {
         id: 3,
@@ -35,7 +53,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/winter-leaves/preview.webp",
         contentFile: "projects/winter-leaves.md",
-        altText: "Animated winter leaves concept art with organic movement and natural textures"
+        altText: "Animated winter leaves concept art with organic movement and natural textures",
+        preview: {
+            image: "images/winter-leaves/preview.webp",
+            role: "Motion Designer",
+            timeline: "2 weeks",
+            tools: "After Effects, Lottie"
+        }
     },
     {
         id: 2,
@@ -44,7 +68,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/helltaker/preview.webp",
         contentFile: "projects/helltaker.md",
-        altText: "Helltaker game design analysis - pixel art demon characters and puzzle mechanics breakdown"
+        altText: "Helltaker game design analysis - pixel art demon characters and puzzle mechanics breakdown",
+        preview: {
+            image: "images/helltaker/preview.webp",
+            role: "Game Design Analyst",
+            timeline: "1 week",
+            tools: "Analysis, Writing"
+        }
     },
     {
         id: 1,
@@ -53,7 +83,13 @@ const posts = [
         date: "2025-12-29",
         featuredImage: "images/welcome/preview.webp",
         contentFile: "projects/welcome.md",
-        altText: "Welcome banner introducing the portfolio and blog section"
+        altText: "Welcome banner introducing the portfolio and blog section",
+        preview: {
+            image: "images/welcome/preview.webp",
+            role: "Content Writer",
+            timeline: "1 day",
+            tools: "Markdown, Figma"
+        }
     }
 ];
 
@@ -353,22 +389,58 @@ function renderHome() {
             ${featuredPosts.map(post => {
                 const year = new Date(post.date).getFullYear();
                 return `
-                    <a href="?post=${post.id}" class="project-card">
-                        <div class="project-image">
-                            <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
-                        </div>
-                        <div class="project-info">
-                            <h2 class="project-title">${post.title}</h2>
-                            <div class="project-category">${post.category}</div>
-                            <div class="project-year">${year}</div>
-                        </div>
-                    </a>
+                    <div class="project-card-wrapper">
+                        <a href="?post=${post.id}" class="project-card">
+                            <div class="project-image">
+                                <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
+                                ${post.preview ? `
+                                    <button class="preview-eye-icon" data-post-id="${post.id}" aria-label="Preview project details">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <div class="project-info">
+                                <h2 class="project-title">${post.title}</h2>
+                                <div class="project-category">${post.category}</div>
+                                <div class="project-year">${year}</div>
+                            </div>
+                        </a>
+                        ${post.preview ? `
+                            <div class="preview-card" data-preview-id="${post.id}">
+                                ${post.preview.video ? `
+                                    <video src="${post.preview.video}" class="preview-image" autoplay loop muted playsinline></video>
+                                ` : `
+                                    <img src="${post.preview.image}" alt="${post.title} preview" class="preview-image" loading="lazy">
+                                `}
+                                <div class="preview-content">
+                                    <div class="preview-row">
+                                        <span class="preview-label">Role</span>
+                                        <span class="preview-value">${post.preview.role}</span>
+                                    </div>
+                                    <div class="preview-row">
+                                        <span class="preview-label">Timeline</span>
+                                        <span class="preview-value">${post.preview.timeline}</span>
+                                    </div>
+                                    <div class="preview-row">
+                                        <span class="preview-label">Tools</span>
+                                        <span class="preview-value">${post.preview.tools}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
                 `;
             }).join('')}
         </div>
     `;
 
     updateNavActive('home');
+
+    // Add preview hover listeners
+    initPreviewHovers();
 }
 
 // Render full project grid on projects page
@@ -410,16 +482,49 @@ function renderProjectsPage() {
             ${filteredPosts.map(post => {
                 const year = new Date(post.date).getFullYear();
                 return `
-                    <a href="?post=${post.id}" class="project-card">
-                        <div class="project-image">
-                            <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
-                        </div>
-                        <div class="project-info">
-                            <h2 class="project-title">${post.title}</h2>
-                            <div class="project-category">${post.category}</div>
-                            <div class="project-year">${year}</div>
-                        </div>
-                    </a>
+                    <div class="project-card-wrapper">
+                        <a href="?post=${post.id}" class="project-card">
+                            <div class="project-image">
+                                <img src="${post.featuredImage}" alt="${post.altText || post.title}" loading="lazy">
+                                ${post.preview ? `
+                                    <button class="preview-eye-icon" data-post-id="${post.id}" aria-label="Preview project details">
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10 4C4.5 4 2 10 2 10s2.5 6 8 6 8-6 8-6-2.5-6-8-6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                                        </svg>
+                                    </button>
+                                ` : ''}
+                            </div>
+                            <div class="project-info">
+                                <h2 class="project-title">${post.title}</h2>
+                                <div class="project-category">${post.category}</div>
+                                <div class="project-year">${year}</div>
+                            </div>
+                        </a>
+                        ${post.preview ? `
+                            <div class="preview-card" data-preview-id="${post.id}">
+                                ${post.preview.video ? `
+                                    <video src="${post.preview.video}" class="preview-image" autoplay loop muted playsinline></video>
+                                ` : `
+                                    <img src="${post.preview.image}" alt="${post.title} preview" class="preview-image" loading="lazy">
+                                `}
+                                <div class="preview-content">
+                                    <div class="preview-row">
+                                        <span class="preview-label">Role</span>
+                                        <span class="preview-value">${post.preview.role}</span>
+                                    </div>
+                                    <div class="preview-row">
+                                        <span class="preview-label">Timeline</span>
+                                        <span class="preview-value">${post.preview.timeline}</span>
+                                    </div>
+                                    <div class="preview-row">
+                                        <span class="preview-label">Tools</span>
+                                        <span class="preview-value">${post.preview.tools}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
                 `;
             }).join('')}
         </div>
@@ -433,6 +538,67 @@ function renderProjectsPage() {
         pill.addEventListener('click', () => {
             currentFilter = pill.getAttribute('data-filter');
             renderProjectsPage();
+        });
+    });
+
+    // Add preview hover listeners
+    initPreviewHovers();
+}
+
+// Initialize preview card hover interactions
+function initPreviewHovers() {
+    const eyeIcons = document.querySelectorAll('.preview-eye-icon');
+
+    eyeIcons.forEach(icon => {
+        const postId = icon.getAttribute('data-post-id');
+        const previewCard = document.querySelector(`[data-preview-id="${postId}"]`);
+
+        if (!previewCard) return;
+
+        icon.addEventListener('mouseenter', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Position preview below eye icon
+            const iconRect = icon.getBoundingClientRect();
+            const cardRect = previewCard.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            // Calculate position below eye icon
+            let top = iconRect.bottom + 8;
+            let left = iconRect.left + (iconRect.width / 2) - (cardRect.width / 2);
+
+            // Edge detection - right side
+            if (left + cardRect.width > viewportWidth - 20) {
+                left = viewportWidth - cardRect.width - 20;
+            }
+
+            // Edge detection - left side
+            if (left < 20) {
+                left = 20;
+            }
+
+            // Edge detection - bottom
+            if (top + cardRect.height > viewportHeight - 20) {
+                top = iconRect.top - cardRect.height - 8; // Show above icon instead
+            }
+
+            previewCard.style.top = `${top}px`;
+            previewCard.style.left = `${left}px`;
+            previewCard.classList.add('visible');
+        });
+
+        icon.addEventListener('mouseleave', () => {
+            previewCard.classList.remove('visible');
+        });
+
+        previewCard.addEventListener('mouseenter', () => {
+            previewCard.classList.add('visible');
+        });
+
+        previewCard.addEventListener('mouseleave', () => {
+            previewCard.classList.remove('visible');
         });
     });
 }
