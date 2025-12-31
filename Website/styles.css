@@ -4,6 +4,14 @@
  * This creates a fast, predictable, stable interface
  */
 
+@font-face {
+    font-family: 'Berkeley Mono';
+    src: url('BerkeleyMono-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -98,9 +106,9 @@ main {
     color: #a1a1aa;
     border: 1px solid #27272a;
     padding: 8px 16px;
-    font-size: 14px;
+    font-family: 'Berkeley Mono', monospace;
+    font-size: 13px;
     font-weight: 500;
-    font-family: inherit;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -126,6 +134,7 @@ main {
 }
 
 .pill-count {
+    font-family: 'Berkeley Mono', monospace;
     font-size: 12px;
     opacity: 0.7;
     font-weight: 600;
@@ -169,12 +178,14 @@ main {
 
 .project-info {
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .project-title {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 6px;
     letter-spacing: -0.025em;
     line-height: 1.3;
     color: #a1a1aa;
@@ -184,14 +195,21 @@ main {
     color: #fafafa;
 }
 
+.project-meta {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+}
+
 .project-category {
+    font-family: 'Berkeley Mono', monospace;
     font-size: 13px;
     color: #a1a1aa;
-    margin-bottom: 2px;
     font-weight: 500;
 }
 
 .project-year {
+    font-family: 'Berkeley Mono', monospace;
     font-size: 13px;
     color: #71717a;
     font-weight: 500;
@@ -218,6 +236,7 @@ main {
 }
 
 .post-link .date {
+    font-family: 'Berkeley Mono', monospace;
     font-size: 14px;
     color: #888;
     font-weight: 400;
@@ -241,6 +260,7 @@ main {
 }
 
 .post-content .meta {
+    font-family: 'Berkeley Mono', monospace;
     font-size: 13px;
     color: #a1a1aa;
     margin-bottom: 48px;
@@ -658,14 +678,16 @@ main {
 }
 
 .preview-label {
-    font-size: 13px;
+    font-family: 'Berkeley Mono', monospace;
+    font-size: 12px;
     color: #71717a;
     font-weight: 500;
     flex-shrink: 0;
 }
 
 .preview-value {
-    font-size: 14px;
+    font-family: 'Berkeley Mono', monospace;
+    font-size: 12px;
     color: #fafafa;
     font-weight: 500;
     text-align: right;

@@ -311,8 +311,10 @@ function renderProjectCard(post) {
                 </div>
                 <div class="project-info">
                     <h2 class="project-title">${post.title}</h2>
-                    <div class="project-category">${post.category}</div>
-                    <div class="project-year">${year}</div>
+                    <div class="project-meta">
+                        <div class="project-category">${post.category}</div>
+                        <div class="project-year">${year}</div>
+                    </div>
                 </div>
             </a>
             ${post.preview ? `
