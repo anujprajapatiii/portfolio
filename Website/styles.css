@@ -66,7 +66,6 @@ nav a.active::after {
     right: 0;
     height: 2px;
     background: #fafafa;
-    border-radius: 2px;
 }
 
 main {
@@ -99,7 +98,6 @@ main {
     color: #a1a1aa;
     border: 1px solid #27272a;
     padding: 8px 16px;
-    border-radius: 20px;
     font-size: 14px;
     font-weight: 500;
     font-family: inherit;
@@ -150,7 +148,6 @@ main {
     display: block;
     text-decoration: none;
     color: inherit;
-    border-radius: 12px;
     overflow: hidden;
 }
 
@@ -158,7 +155,6 @@ main {
     width: 100%;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-radius: 10px;
     background: #18181b;
     margin-bottom: 16px;
     border: 1px solid #27272a;
@@ -172,7 +168,7 @@ main {
 }
 
 .project-info {
-    padding: 0 4px;
+    padding: 0;
 }
 
 .project-title {
@@ -298,14 +294,12 @@ main {
     background: #18181b;
     color: #fafafa;
     padding: 3px 6px;
-    border-radius: 4px;
     border: 1px solid #27272a;
 }
 
 .post-content pre {
     background: #18181b;
     padding: 16px;
-    border-radius: 8px;
     border: 1px solid #27272a;
     overflow-x: auto;
     margin-bottom: 24px;
@@ -330,7 +324,6 @@ main {
     max-width: 100%;
     height: auto;
     margin-bottom: 24px;
-    border-radius: 8px;
     border: 1px solid #27272a;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
@@ -340,7 +333,6 @@ main {
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     margin-bottom: 24px;
-    border-radius: 8px;
     overflow: hidden;
     background: #18181b;
     border: 1px solid #27272a;
@@ -371,7 +363,6 @@ main {
     font-size: 14px;
     font-weight: 500;
     padding: 8px 12px;
-    border-radius: 6px;
     margin-left: -12px;
 }
 
@@ -435,7 +426,6 @@ main {
 .swatch {
     width: 100%;
     height: 80px;
-    border-radius: 8px;
     border: 1px solid #27272a;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
@@ -460,14 +450,12 @@ main {
     padding: 24px;
     background: #18181b;
     border: 1px solid #27272a;
-    border-radius: 8px;
 }
 
 .btn-primary,
 .btn-secondary,
 .btn-ghost {
     padding: 10px 20px;
-    border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
     font-family: inherit;
@@ -529,14 +517,12 @@ main {
 .spacing-box {
     height: 32px;
     background: #3f3f46;
-    border-radius: 4px;
 }
 
 .transition-demo {
     padding: 20px 32px;
     background: #18181b;
     border: 1px solid #27272a;
-    border-radius: 8px;
     color: #fafafa;
     font-weight: 500;
     width: fit-content;
@@ -608,7 +594,6 @@ main {
     right: 16px;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     background: rgba(9, 9, 11, 0.6);
     backdrop-filter: blur(8px);
     border: 1px solid #27272a;
@@ -638,7 +623,6 @@ main {
     width: 320px;
     background: #18181b;
     border: 1px solid #27272a;
-    border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
     opacity: 0;
     pointer-events: none;
@@ -656,7 +640,6 @@ main {
     height: 180px;
     object-fit: cover;
     display: block;
-    border-radius: 6px;
     margin-bottom: 12px;
 }
 
