@@ -153,52 +153,62 @@ const designSystemContent = `
         </div>
     </div>
 
-    <h2>Colors</h2>
+    <h2>Colors — Neutrals</h2>
     <div class="color-palette">
         <div class="color-swatch">
-            <div class="swatch" style="background: #09090b;"></div>
-            <div class="color-name">Background</div>
-            <div class="color-value">#09090b</div>
+            <div class="swatch" style="background: black;"></div>
+            <div class="color-name">Black</div>
+            <div class="color-value">black</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #18181b;"></div>
-            <div class="color-name">Surface</div>
-            <div class="color-value">#18181b</div>
+            <div class="swatch" style="background: #0e0f12;"></div>
+            <div class="color-name">900</div>
+            <div class="color-value">#0e0f12</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #27272a;"></div>
-            <div class="color-name">Border</div>
-            <div class="color-value">#27272a</div>
+            <div class="swatch" style="background: #141619;"></div>
+            <div class="color-name">800</div>
+            <div class="color-value">#141619</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #3f3f46;"></div>
-            <div class="color-name">Border Hover</div>
-            <div class="color-value">#3f3f46</div>
+            <div class="swatch" style="background: #1c1f24;"></div>
+            <div class="color-name">700</div>
+            <div class="color-value">#1c1f24</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #52525b;"></div>
-            <div class="color-name">Border Focus</div>
-            <div class="color-value">#52525b</div>
+            <div class="swatch" style="background: #21252b;"></div>
+            <div class="color-name">600</div>
+            <div class="color-value">#21252b</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #71717a;"></div>
-            <div class="color-name">Text Muted</div>
-            <div class="color-value">#71717a</div>
+            <div class="swatch" style="background: #2c323a;"></div>
+            <div class="color-name">500</div>
+            <div class="color-value">#2c323a</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #a1a1aa;"></div>
-            <div class="color-name">Text Secondary</div>
-            <div class="color-value">#a1a1aa</div>
+            <div class="swatch" style="background: #434b56;"></div>
+            <div class="color-name">400</div>
+            <div class="color-value">#434b56</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #e4e4e7;"></div>
-            <div class="color-name">Text Body</div>
-            <div class="color-value">#e4e4e7</div>
+            <div class="swatch" style="background: #99a1ac;"></div>
+            <div class="color-name">300</div>
+            <div class="color-value">#99a1ac</div>
         </div>
         <div class="color-swatch">
-            <div class="swatch" style="background: #fafafa;"></div>
-            <div class="color-name">Text Primary</div>
-            <div class="color-value">#fafafa</div>
+            <div class="swatch" style="background: #d3d7dd;"></div>
+            <div class="color-name">200</div>
+            <div class="color-value">#d3d7dd</div>
+        </div>
+        <div class="color-swatch">
+            <div class="swatch" style="background: #f6f7f8;"></div>
+            <div class="color-name">100</div>
+            <div class="color-value">#f6f7f8</div>
+        </div>
+        <div class="color-swatch">
+            <div class="swatch" style="background: white;"></div>
+            <div class="color-name">White</div>
+            <div class="color-value">white</div>
         </div>
     </div>
 
