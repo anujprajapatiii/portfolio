@@ -243,29 +243,59 @@ function isProjectsPage() {
 
 // Simple markdown-like text formatting
 function formatText(text) {
-    return text
+    // First, handle block-level elements (headings, images, videos)
+    let formatted = text
         // YouTube videos: [youtube:VIDEO_ID]
-        .replace(/\[youtube:([^\]]+)\]/g, '<div class="video-container"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>')
+        .replace(/\[youtube:([^\]]+)\]/g, '\n<div class="video-container"><iframe src="https://www.youtube.com/embed/$1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n')
         // Vimeo videos: [vimeo:VIDEO_ID]
-        .replace(/\[vimeo:([^\]]+)\]/g, '<div class="video-container"><iframe src="https://player.vimeo.com/video/$1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>')
+        .replace(/\[vimeo:([^\]]+)\]/g, '\n<div class="video-container"><iframe src="https://player.vimeo.com/video/$1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n')
         // Lottie animations: [lottie:URL]
-        .replace(/\[lottie:([^\]]+)\]/g, '<div class="lottie-container" data-lottie-url="$1"></div>')
-        // Images (must come after links to avoid conflicts)
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" loading="lazy">')
-        // Headers
-        .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-        .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-        // Bold
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // Italic
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[lottie:([^\]]+)\]/g, '\n<div class="lottie-container" data-lottie-url="$1"></div>\n')
+        // Images with optional caption
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '\n<img src="$2" alt="$1" loading="lazy">\n')
+        // Headers (must come before bold/italic to avoid conflicts)
+        .replace(/^### (.*$)/gim, '\n<h3>$1</h3>\n')
+        .replace(/^## (.*$)/gim, '\n<h2>$1</h2>\n')
+        .replace(/^# (.*$)/gim, '\n<h1>$1</h1>\n')
+        // Bold and italic combined (must come before individual bold/italic)
+        // Use non-greedy match and don't cross line boundaries
+        .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+        // Bold - don't match across newlines
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        // Italic - don't match across newlines or quotes
+        .replace(/\*([^\*\n]+?)\*/g, '<em>$1</em>')
         // Links
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-        // Paragraphs
-        .replace(/\n\n/g, '</p><p>')
-        // Line breaks
-        .replace(/\n/g, '<br>');
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+    // Split into blocks (paragraphs separated by double newlines)
+    const blocks = formatted.split(/\n\n+/);
+
+    // Process each block
+    const processedBlocks = blocks.map(block => {
+        block = block.trim();
+        if (!block) return '';
+
+        // Check if this is a list block (lines starting with -)
+        if (block.match(/^- /m)) {
+            const listItems = block.split('\n')
+                .filter(line => line.trim().startsWith('- '))
+                .map(line => '<li>' + line.replace(/^- /, '') + '</li>')
+                .join('\n');
+            return '<ul>\n' + listItems + '\n</ul>';
+        }
+
+        // Don't wrap block-level elements in <p> tags
+        if (block.startsWith('<h1>') || block.startsWith('<h2>') || block.startsWith('<h3>') ||
+            block.startsWith('<img') || block.startsWith('<div') || block.startsWith('<iframe') ||
+            block.startsWith('<ul>')) {
+            return block;
+        }
+
+        // Wrap everything else in <p> tags and convert single newlines to <br>
+        return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
+    });
+
+    return processedBlocks.join('\n');
 }
 
 // Render about page
@@ -277,7 +307,7 @@ function renderAbout() {
 
     container.innerHTML = `
         <article class="post-content">
-            <p>${formattedContent}</p>
+            <div class="post-body">${formattedContent}</div>
         </article>
     `;
 
@@ -442,7 +472,7 @@ async function renderPost(postId) {
             <article class="post-content">
                 <h1>${post.title}</h1>
                 <div class="meta">${formatDate(post.date)}</div>
-                <p>${formattedContent}</p>
+                <div class="post-body">${formattedContent}</div>
             </article>
         `;
 
