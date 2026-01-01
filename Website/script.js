@@ -119,37 +119,42 @@ When I'm not designing, you'll find me analyzing game design patterns, sketching
 const designSystemContent = `
 <div class="design-system">
     <h1>Design System</h1>
-    <div class="meta">A comprehensive guide to the visual language and components</div>
+    <div class="meta">Swiss-inspired minimalist design system with mathematical precision</div>
 
-    <h2>Typography</h2>
+    <h2>Typography Scale</h2>
+    <p style="margin-bottom: 16px; color: var(--color-text-secondary);">Perfect Fourth ratio (1.333) — Geist for UI, Berkeley Mono for technical elements</p>
     <div class="typography-samples">
         <div class="sample">
-            <h1>Heading 1 — 32px/600</h1>
-            <code>font-size: 32px; font-weight: 600;</code>
+            <h1 style="margin: 0;">Display — 48px/600/-0.02em</h1>
+            <code>var(--font-size-4xl) • line-height: 1.1 • tracking: -0.02em</code>
         </div>
         <div class="sample">
-            <h2>Heading 2 — 24px/600</h2>
-            <code>font-size: 24px; font-weight: 600;</code>
+            <h1 style="font-size: 40px; margin: 0;">Heading 1 — 40px/600/-0.02em</h1>
+            <code>var(--font-size-3xl) • line-height: 1.1 • tracking: -0.02em</code>
         </div>
         <div class="sample">
-            <h3>Heading 3 — 20px/600</h3>
-            <code>font-size: 20px; font-weight: 600;</code>
+            <h2 style="margin: 0;">Heading 2 — 32px/600/-0.02em</h2>
+            <code>var(--font-size-2xl) • line-height: 1.25 • tracking: -0.02em</code>
         </div>
         <div class="sample">
-            <p style="font-size: 18px; margin: 0;">Body Large — 18px/500</p>
-            <code>font-size: 18px; font-weight: 500;</code>
+            <h3 style="margin: 0;">Heading 3 — 24px/600/-0.01em</h3>
+            <code>var(--font-size-xl) • line-height: 1.25 • tracking: -0.01em</code>
         </div>
         <div class="sample">
-            <p style="font-size: 16px; margin: 0;">Body — 16px/400</p>
-            <code>font-size: 16px; font-weight: 400;</code>
+            <p style="font-size: 18px; margin: 0;">Body Large — 18px/400/0em</p>
+            <code>var(--font-size-lg) • line-height: 1.6 • tracking: 0em</code>
         </div>
         <div class="sample">
-            <p style="font-size: 14px; margin: 0; color: #a1a1aa;">Body Small — 14px/500</p>
-            <code>font-size: 14px; font-weight: 500; color: #a1a1aa;</code>
+            <p style="font-size: 16px; margin: 0;">Body — 16px/400/0em</p>
+            <code>var(--font-size-base) • line-height: 1.6 • tracking: 0em</code>
         </div>
         <div class="sample">
-            <p style="font-size: 13px; margin: 0; color: #a1a1aa;">Caption — 13px/500</p>
-            <code>font-size: 13px; font-weight: 500; color: #a1a1aa;</code>
+            <p style="font-size: 14px; margin: 0; color: var(--color-text-secondary);">Body Small — 14px/400/0em</p>
+            <code>var(--font-size-sm) • line-height: 1.4 • tracking: 0em</code>
+        </div>
+        <div class="sample">
+            <p style="font-size: 12px; margin: 0; font-family: 'Berkeley Mono', monospace; color: var(--color-text-secondary);">Caption — 12px/400/0.01em</p>
+            <code>var(--font-size-xs) • Berkeley Mono • tracking: 0.01em</code>
         </div>
     </div>
 
@@ -252,22 +257,23 @@ const designSystemContent = `
     </div>
 
     <h2>Spacing Scale</h2>
+    <p style="margin-bottom: 16px; color: var(--color-text-secondary);">8-point grid system for mathematical consistency</p>
     <div class="spacing-scale">
-        <div class="spacing-item"><div class="spacing-box" style="width: 4px;"></div><code>4px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 8px;"></div><code>8px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 12px;"></div><code>12px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 16px;"></div><code>16px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 20px;"></div><code>20px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 24px;"></div><code>24px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 32px;"></div><code>32px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 40px;"></div><code>40px</code></div>
-        <div class="spacing-item"><div class="spacing-box" style="width: 48px;"></div><code>48px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 4px;"></div><code>--space-xs • 4px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 8px;"></div><code>--space-sm • 8px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 16px;"></div><code>--space-md • 16px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 24px;"></div><code>--space-lg • 24px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 32px;"></div><code>--space-xl • 32px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 40px;"></div><code>--space-2xl • 40px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 48px;"></div><code>--space-3xl • 48px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 64px;"></div><code>--space-4xl • 64px</code></div>
+        <div class="spacing-item"><div class="spacing-box" style="width: 80px;"></div><code>--space-5xl • 80px</code></div>
     </div>
 
-    <h2>Transitions</h2>
+    <h2>Interaction Principles</h2>
     <div class="component-group">
-        <div class="transition-demo">Hover me</div>
-        <code>transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);</code>
+        <p style="margin: 0; color: var(--color-text-secondary);">All interactions are instant—no fades, no movement, no delays. Changes happen immediately on hover or click.</p>
+        <code>Design Principle: Instant state changes only</code>
     </div>
 </div>
 `;
